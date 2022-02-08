@@ -18,30 +18,44 @@ const ExpenseForm = props => {
         setDate(event.target.value)
     }
 
+    const submitHandler = event => {
+        event.preventDefault()
+        const expenseData = {
+            title,
+            amount,
+            date: new Date(date)
+        }
+        props.onSaveExpenseData(expenseData)
+        setTitle('')
+        setAmount('')
+        setDate('')
+    }
+
     return (
-        <form>
+        <form onSubmit={submitHandler}>
             <div className='new-expense__controls'>
                 <div className='new-expense__control'>
                     <label>Title</label>
-                    <input type="text" onChange={setTitleHandler} />
+                    <input type="text" onChange={setTitleHandler} value={title} />
                 </div>
             </div>
 
             <div className='new-expense__controls'>
                 <div className='new-expense__control'>
                     <label>Amount</label>
-                    <input type="number" min="0.01" step="0.01" onChange={setAmountHandler}/>
+                    <input type="number" min="0.01" step="0.01" onChange={setAmountHandler} value={amount} />
                 </div>
             </div>
 
             <div className='new-expense__controls'>
                 <div className='new-expense__control'>
                     <label>Date</label>
-                    <input type="date" min="2022-01-01" max="2025-12-31" onChange={setDateHandler} />
+                    <input type="date" min="2022-01-01" max="2025-12-31" onChange={setDateHandler} value={date} />
                 </div>
             </div>
 
             <div className='new-expense__actions'>
+                <button type="button" onClick={props.onCancel}>Cancel</button>
                 <button type='submit'>Add Expense</button>
             </div>
         </form>
